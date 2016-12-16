@@ -10,7 +10,7 @@ class Pokemon
     pokemon = @constructor.pokedex[id]
     throw new Error("Pokemon not found: " + id) unless pokemon?
     
-    @lvl = lvl / 10
+    @lvl = lvl
     @name = pokemon.name
     @types = (new Type typeId for typeId in pokemon.types)
     @weight = pokemon.weight / 10
@@ -26,7 +26,7 @@ class Pokemon
         },
     }
     
-    @maxHp = 141 + 2 * pokemon.stats.hp * this.lvl
+    @maxHp = 141 + 2 * pokemon.stats.hp * getLevelForStats
     @hp = @maxHp
 
     @conditions = {}
@@ -42,11 +42,13 @@ class Pokemon
     else
       return @trainer.name + "'s lvl "+ this.lvl + " " + @name
   
-  attack: -> this.lvl * this.stat 'attack'
-  defense: -> this.lvl * this.stat 'defense'
-  spattack: -> this.lvl * this.stat 'spattack'
-  spdefense: -> this.lvl * this.stat 'spdefense'
-  speed: -> this.lvl * this.stat 'speed'
+  getLevelForStats: -> this.lvl / 10
+
+  attack: -> getLevelForStats * this.stat 'attack'
+  defense: -> getLevelForStats * this.stat 'defense'
+  spattack: -> getLevelForStats * this.stat 'spattack'
+  spdefense: -> getLevelForStats * this.stat 'spdefense'
+  speed: -> getLevelForStats * this.stat 'speed'
   
   chooseMove: (defender) ->
     @move = @strategy.chooseMove defender
