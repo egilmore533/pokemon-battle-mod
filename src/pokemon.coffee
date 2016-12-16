@@ -6,10 +6,11 @@ Strategy = require './strategy'
 class Pokemon
   this.pokedex = JSON.parse fs.readFileSync(__dirname + '/../data/pokemon.json').toString()
 
-  constructor: (id) ->
+  constructor: (id, lvl) ->
     pokemon = @constructor.pokedex[id]
     throw new Error("Pokemon not found: " + id) unless pokemon?
     
+    @lvl = lvl
     @name = pokemon.name
     @types = (new Type typeId for typeId in pokemon.types)
     @weight = pokemon.weight / 10
@@ -25,7 +26,7 @@ class Pokemon
         },
     }
     
-    @maxHp = 141 + 2 * pokemon.stats.hp
+    @maxHp = 141 + 2 * pokemon.stats.hp * this.lvl
     @hp = @maxHp
 
     @conditions = {}
@@ -39,13 +40,13 @@ class Pokemon
     if not @trainer.name?
       return "your " + @name
     else
-      return @trainer.name + "'s " + @name
+      return @trainer.name + "'s lvl "+ this.lvl + " " + @name
   
-  attack: -> this.stat 'attack'
-  defense: -> this.stat 'defense'
-  spattack: -> this.stat 'spattack'
-  spdefense: -> this.stat 'spdefense'
-  speed: -> this.stat 'speed'
+  attack: -> this.lvl * this.stat 'attack'
+  defense: -> this.lvl * this.stat 'defense'
+  spattack: -> this.lvl * this.stat 'spattack'
+  spdefense: -> this.lvl * this.stat 'spdefense'
+  speed: -> this.lvl * this.stat 'speed'
   
   chooseMove: (defender) ->
     @move = @strategy.chooseMove defender

@@ -7,8 +7,13 @@ pokemon = {}
 pokemon.lookup = (name) ->
   name = name.toLowerCase()
   switch
-    when name == 'nidoran f' then 29
-    when name == 'nidoran m' then 32
+    when name == 'nidoran-f (f)' then 29
+    when name == 'nidoran-m (m)' then 32
+    when name == 'nidorino (m)' then 33
+    when name == 'nidorina (f)' then 30
+    when name == 'nidoqueen (f)' then 31
+    when name == 'nidoking (m)' then 34
+
     else (id for id, pkmn of Pokemon.pokedex when name is pkmn.name.toLowerCase())[0]
 
 pokemon.battle = (team1, team2) ->
@@ -21,10 +26,10 @@ pokemon.battle = (team1, team2) ->
   
   # Build trainers
   trainer1 = new Trainer team1.trainer
-  trainer1.addPokemon new Pokemon pokemon for pokemon in team1.pokemon
+  trainer1.addPokemon new Pokemon(pokemon[0], pokemon[1]) for pokemon in team1.pokemon
   
   trainer2 = new Trainer team2.trainer
-  trainer2.addPokemon new Pokemon pokemon for pokemon in team2.pokemon
+  trainer2.addPokemon new Pokemon(pokemon[0], pokemon[1]) for pokemon in team2.pokemon
 
   # Fight!  
   battle = new Battle trainer1, trainer2
