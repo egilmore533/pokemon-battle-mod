@@ -10,7 +10,7 @@ class Pokemon
     pokemon = @constructor.pokedex[id]
     throw new Error("Pokemon not found: " + id) unless pokemon?
     
-    @lvl = lvl
+    @lvl = lvl / 10
     @name = pokemon.name
     @types = (new Type typeId for typeId in pokemon.types)
     @weight = pokemon.weight / 10
