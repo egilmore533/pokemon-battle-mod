@@ -26,7 +26,7 @@ class Pokemon
         },
     }
     
-    @maxHp = 141 + 2 * pokemon.stats.hp * getLevelForStats
+    @maxHp = 141 + 2 * pokemon.stats.hp * this.lvl / 10
     @hp = @maxHp
 
     @conditions = {}
@@ -42,13 +42,11 @@ class Pokemon
     else
       return @trainer.name + "'s lvl "+ this.lvl + " " + @name
   
-  getLevelForStats: -> this.lvl / 10
-
-  attack: -> getLevelForStats * this.stat 'attack'
-  defense: -> getLevelForStats * this.stat 'defense'
-  spattack: -> getLevelForStats * this.stat 'spattack'
-  spdefense: -> getLevelForStats * this.stat 'spdefense'
-  speed: -> getLevelForStats * this.stat 'speed'
+  attack: -> this.lvl / 10 * this.stat 'attack'
+  defense: -> this.lvl / 10 * this.stat 'defense'
+  spattack: -> this.lvl / 10 * this.stat 'spattack'
+  spdefense: -> this.lvl / 10 * this.stat 'spdefense'
+  speed: ->this.lvl / 10 * this.stat 'speed'
   
   chooseMove: (defender) ->
     @move = @strategy.chooseMove defender
